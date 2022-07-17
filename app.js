@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs').promises;
-const host = 'localhost';
-const port = 8000;
+const host = '0.0.0.0';
+const port = 3000;
 
 const requestListener = function (req, res) {
     res.setHeader("Content-Type", "text/html");
