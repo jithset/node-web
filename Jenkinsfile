@@ -1,22 +1,34 @@
 pipeline{
-    environment {
-        registry = "jithset/node-sample"
-        registryCredential = 'docker-hub'
-        containerName = 'node-web'
-    }
-
     agent{
         label "label1"
     }
     stages{
-        stage("Starting Container"){
+        stage("A"){
             steps{
-                echo "========executing A========"
-                sh """
-                    docker stop $containerName && docker rm $containerName;
-                    docker run -p 3000:3000 -d --name $containerName $registry:latest
-                """
+                echo "========This is a Sample Jenkins File========"
             }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
         }
     }
 }
