@@ -9,7 +9,11 @@ pipeline{
 
                 withSonarQubeEnv(installationName: 'node-sq', credentialsId: 'jenkins-sonar') {
                     // some block
-                    sh """sonar-scanner --version"""
+                    sh """
+                    node --version
+                    sonar-scanner --version
+                    
+                    """
                 }
             }
         }
