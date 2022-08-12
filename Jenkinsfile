@@ -1,22 +1,21 @@
 pipeline{
+    environment {
+        registry = "jithset/node-sample"
+        registryCredential = 'docker-hub'
+        containerName = 'node-web'
+    }
+
     agent{
         label "label1"
     }
     stages{
-        stage("A"){
+        stage("Starting Container"){
             steps{
                 echo "========executing A========"
-            }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
+                sh """
+                    docker stop $containerName && docker rm $containerName;
+                    docker run -p 3000:3000 -d --name $containerName $registry:latest
+                """
             }
         }
     }
