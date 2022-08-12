@@ -1,0 +1,28 @@
+pipeline{
+    agent{
+        label "label1"
+    }
+    stages{
+        stage("Scan with sonarqube"){
+            steps{
+                echo "========executing sonarqube========"
+
+                withSonarQubeEnv(installationName: 'node-sq', credentialsId: 'jenkins-sonar') {
+                    // some block
+                    sh ''sonar-scanner --version""
+                }
+            }
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}
