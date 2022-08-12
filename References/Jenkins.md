@@ -30,3 +30,10 @@ docker-workflow
 
 Declarative Pipeline
 ```
+
+## Nodes Issue
+
+```
+Manage Jenkins -> Nodes
+
+```
