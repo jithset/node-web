@@ -11,14 +11,14 @@ pipeline{
                 echo "========executing sonarqube========"
 
                 withSonarQubeEnv(installationName: 'node-sq', credentialsId: 'jenkins-sonar') {
-                    withCredentials([string(credentialsId: 'sonar-token', variable: 'sonar-token')]) {
+                    withCredentials([string(credentialsId: 'sonar-token', variable: 'sonartoken')]) {
                         sh """
                             sonar-scanner --version
                             sonar-scanner \
                                 -Dsonar.projectKey=node-project \
                                 -Dsonar.sources=. \
                                 -Dsonar.host.url=http://localhost:9000 \
-                                -Dsonar.login=${sonar-token}
+                                -Dsonar.login=$sonartoken
                             """
                     }
                     
