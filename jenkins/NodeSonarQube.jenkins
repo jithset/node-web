@@ -11,15 +11,17 @@ pipeline{
                 echo "========executing sonarqube========"
 
                 withSonarQubeEnv(installationName: 'node-sq', credentialsId: 'jenkins-sonar') {
-                    // some block
-                    sh """
-                    sonar-scanner --version
-                    sonar-scanner \
-                        -Dsonar.projectKey=node-project \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://localhost:9000 \
-                        -Dsonar.login=squ_c8b8ef23fb3525c7de4ae5211079fd12435e389b
-                    """
+                    withCredentials([string(credentialsId: 'sonar-token', variable: 'sonar-token')]) {
+                        sh """
+                            sonar-scanner --version
+                            sonar-scanner \
+                                -Dsonar.projectKey=node-project \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=http://localhost:9000 \
+                                -Dsonar.login=${sonar-token}
+                            """
+                    }
+                    
                 }
             }
         }
