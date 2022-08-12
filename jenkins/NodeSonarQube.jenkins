@@ -1,4 +1,7 @@
 pipeline{
+    tools {
+        nodejs '16.15.0'
+    }
     agent{
         label "label1"
     }
