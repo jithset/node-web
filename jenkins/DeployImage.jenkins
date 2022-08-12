@@ -1,0 +1,53 @@
+pipeline{
+    environment {
+        registry = "jithset/node-sample"
+        registryCredential = 'docker-hub'
+        dockerImage = ''
+        dockerImageLatest = ''
+    }
+    agent{
+        label "label1"
+    }
+    stages{
+        stage("Building image"){
+            steps{
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImageLatest = docker.build registry + ":latest"
+                }
+            }
+            post{
+                success{
+                    echo "========Building image executed successfully========"
+                }
+                failure{
+                    echo "========Building image execution failed========"
+                }
+            }
+        }
+
+        stage("Deploy Latest Image") {
+            steps {
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImageLatest.push()
+                    }
+                }
+            }
+        }
+
+        stage('Remove Unused docker image') {
+            steps{
+                sh "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+    }
+    post{
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}

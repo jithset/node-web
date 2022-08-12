@@ -37,3 +37,9 @@ Declarative Pipeline
 Manage Jenkins -> Nodes
 
 ```
+
+## Jenkins Script File
+
+```
+jenkins/BuildFromHub
+```
