@@ -1,24 +1,39 @@
 const http = require('http');
-const fs = require('fs').promises;
+const os = require('os');
+const fs = require('fs');
 const host = '0.0.0.0';
 const port = 3000;
 
 const requestListener = function (req, res) {
-    res.setHeader("Content-Type", "text/html");
-    res.writeHead(200);
-    res.end(indexFile);
+    switch (req.url) {
+        case "/": {
+            fs.readFile( __dirname + "/index.html", function (error, pgResp) {
+            if (error) {
+                res.writeHead(404);
+                res.write('Contents you are looking are Not Found');
+            } else {
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.write(pgResp);
+            }
+            res.end();
+        });
+
+            break;
+        }
+        case "/host":
+            res.setHeader("Content-Type", "text/html");
+            res.writeHead(200);
+            res.end(os.hostname());
+            break
+        
+        default:
+            res.writeHead(404);
+            res.end(JSON.stringify({error:"Resource not found"}));
+    }
 };
 const server = http.createServer(requestListener);
 
-fs.readFile(__dirname + "/index.html")
-    .then(contents => {
-        indexFile = contents;
-        server.listen(port, host, () => {
+server.listen(port, host, () => {
             console.log(`Server is running on http://${host}:${port}`);
         });
-    })
-    .catch(err => {
-        console.error(`Could not read index.html file: ${err}`);
-        process.exit(1);
-    });
 
