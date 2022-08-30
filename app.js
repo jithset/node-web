@@ -12,6 +12,7 @@ const requestListener = function (req, res) {
                 res.writeHead(404);
                 res.write('Contents you are looking are Not Found');
             } else {
+                console.log(os.hostname());
                 res.writeHead(200, { 'Content-Type': 'text/html' });
                 res.write(pgResp);
             }
