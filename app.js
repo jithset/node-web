@@ -24,7 +24,7 @@ const requestListener = function (req, res) {
         case "/host":
             res.setHeader("Content-Type", "text/html");
             res.writeHead(200);
-            res.end(os.hostname());
+            res.end("Hi From : " + os.hostname());
             break
         
         default:
